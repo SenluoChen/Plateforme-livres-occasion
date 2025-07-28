@@ -1,7 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Root from './Root'
+import Root from './Root';
 import HomePage from '../pages/HomePage';
-import PanierPage from '../pages/PanierPage'; // ✅ 購物車頁面
+import PanierPage from '../pages/PanierPage';
+import ProductDetail from '../pages/ProductDetail'; // 加入這行
 
 export const router = createBrowserRouter([
   {
@@ -12,7 +13,10 @@ export const router = createBrowserRouter([
         path: 'dashboard',
         element: <HomePage />,
       },
-  
+      {
+        path: 'produit/:id', // ✅ 加入這個路由
+        element: <ProductDetail />,
+      },
     ],
   },
   {
@@ -21,5 +25,4 @@ export const router = createBrowserRouter([
   },
 ]);
 
-// ✅ 解決 TS1208 isolatedModules 錯誤
 export {};

@@ -13,7 +13,7 @@ type Produit = {
 };
 
 const produits: Produit[] = [
-  { id: 1, nom: "1", categorie: "手機", image: "" },
+  { id: 1, nom: "1", categorie: "手機", image: "71RIGNIOssL._SL1500_.jpg" },
   { id: 2, nom: "3", categorie: "手機", image: "" },
   { id: 3, nom: "2", categorie: "手機", image: "" },
   { id: 4, nom: "4", categorie: "手機", image: "" },
