@@ -45,7 +45,7 @@ a {
 }
 
 .apple-navbar {
-  background-color: white;
+  background-color: 		#649a8b ;
   border-bottom: 1px solid #ddd;
   padding: 20px 0;
   position: sticky;
@@ -86,7 +86,7 @@ a {
 
 
 .top-navbar {
-  background-color: #f57224;
+  background-color: 649a8b;
   padding: 10px 0;
   width: 100%;
   position: sticky;
@@ -190,7 +190,7 @@ h1, h2 {
 
 .shopee-banner {
   width: 100%;
-  background-color: #f57224;
+  background-color: #649a8b;
   padding: 10px 0;
   color: white;
   font-weight: bold;
@@ -280,7 +280,7 @@ h1, h2 {
 }
 
 .product-card button:hover {
-  background-color: #e64a19;
+  background-color: #649a8b;
 }
 
 .cart-list {
@@ -311,5 +311,14 @@ hr {
 .total {
   font-weight: bold;
   color: #333;
+}
+
+img {
+  display: block;
+  margin: 0;  /* 避免 img 預設底部空隙 */
+}
+
+input {
+  margin: 0;
 }
 
