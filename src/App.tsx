@@ -5,6 +5,8 @@ import ProductDetail from './pages/ProductDetail';
 import PanierPage from './pages/PanierPage';   // ✅ 引入購物車頁面
 import CheckoutPage from './pages/CheckoutPage'; // ✅ 引入結帳頁面
 import { CartProvider } from './contexts/CartContext';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   return (
