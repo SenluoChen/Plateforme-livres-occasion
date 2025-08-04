@@ -1,12 +1,12 @@
 // src/contexts/CartContext.tsx
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from "react";
 
 type Product = {
   id: number;
   nom: string;
   categorie: string;
   image: string;
-  prix?: number; // 如果你有價格欄位可以加上
+  prix?: number; // 可選價格
 };
 
 type CartItem = Product & { quantity: number };
@@ -15,6 +15,7 @@ type CartContextType = {
   cart: CartItem[];
   addToCart: (product: Product) => void;
   removeFromCart: (productId: number) => void;
+  updateQuantity: (productId: number, newQty: number) => void; // ✅ 新增
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -22,6 +23,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
+  // ➕ 加入購物車
   const addToCart = (product: Product) => {
     setCart((prev) => {
       const exist = prev.find((item) => item.id === product.id);
@@ -36,12 +38,24 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  // ❌ 移除整個商品
   const removeFromCart = (productId: number) => {
     setCart((prev) => prev.filter((item) => item.id !== productId));
   };
 
+  // 🔄 更新數量
+  const updateQuantity = (productId: number, newQty: number) => {
+    setCart((prev) =>
+      prev.map((item) =>
+        item.id === productId
+          ? { ...item, quantity: Math.max(1, newQty) } // 不小於1
+          : item
+      )
+    );
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity }}>
       {children}
     </CartContext.Provider>
   );
@@ -49,6 +63,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
 export const useCart = () => {
   const context = useContext(CartContext);
-  if (!context) throw new Error('CartProvider is missing');
+  if (!context) throw new Error("CartProvider is missing");
   return context;
 };

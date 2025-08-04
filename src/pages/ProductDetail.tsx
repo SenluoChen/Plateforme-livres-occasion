@@ -20,7 +20,7 @@ Alors, ce livre est fait pour vous !
 
 Ce guide complet et accessible vous emmène dans un voyage fascinant à travers l’univers quantique, en rendant clairs des concepts qui semblaient hors de portée.  
 Aucun doctorat nécessaire : ce livre simplifie les idées complexes tout en gardant la magie et l’émerveillement de l’infiniment petit.`,
-    price: 229
+    price: 12
   },
   {
     id: 2,
@@ -110,40 +110,40 @@ function ProductDetail() {
         {/* --- Colonne gauche : Images --- */}
         <Box>
           {/* Image principale (zoom au survol) */}
-          <Box
-            sx={{
-              width: 320,
-              height: 320,
-              backgroundColor: '#f3f3f3',
-              borderRadius: 2,
-              overflow: 'hidden',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              mb: 2
-            }}
-          >
-            {selectedImage ? (
-              <img
-                src={selectedImage}
-                alt={produit.nom}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  transition: 'transform 0.3s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.8)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)';
-                }}
-              />
-            ) : (
-              <Typography variant="body1" color="text.secondary">Aucune image</Typography>
-            )}
-          </Box>
+         <Box
+  sx={{
+    width: 320,
+    height: 320,
+    backgroundColor: '#f3f3f3',
+    borderRadius: 2,
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    mb: 2
+  }}
+>
+  {selectedImage ? (
+    <img
+      src={selectedImage}
+      alt={produit.nom}
+      style={{
+        width: '100%',
+        height: '100%',
+        objectFit: 'contain',  // ✅ 顯示完整圖片
+        transition: 'transform 0.3s ease',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'scale(1.2)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'scale(1)';
+      }}
+    />
+  ) : (
+    <Typography variant="body1" color="text.secondary">Aucune image</Typography>
+  )}
+</Box>
 
           {/* Liste de miniatures */}
           <Box sx={{ display: 'flex', gap: 1 }}>
@@ -190,7 +190,7 @@ function ProductDetail() {
             boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
           }}
         >
-          <Typography variant="h5" color="error">NT${produit.price}</Typography>
+          <Typography variant="h5" color="error">€{produit.price}</Typography>
 
           {/* Sélecteur de quantité */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

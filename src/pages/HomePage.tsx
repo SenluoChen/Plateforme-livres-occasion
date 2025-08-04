@@ -28,24 +28,24 @@ const livres: Livre[] = [
   { id: 6, titre: "La Peste", categorie: "Roman", image: "la-peste.jpg", prix: 18, condition: "Occasion", langue: "Français", stock: 1, description: "Roman d'Albert Camus." },
 ];
 
-function HomePage() {
-  const [menuOpen, setMenuOpen] = useState(false);
+function PageAccueil() {
+  const [menuOuvert, setMenuOuvert] = useState(false);
   const [recherche, setRecherche] = useState("");
   const [filtreCategorie] = useState("");
-  const [filterOpen, setFilterOpen] = useState(false);
-  const [filters, setFilters] = useState<any>({});
+  const [filtreOuvert, setFiltreOuvert] = useState(false);
+  const [filtres, setFiltres] = useState<any>({});
   const navigate = useNavigate();
   const { addToCart, cart } = useCart();
 
   const livresFiltres = livres.filter((l) => {
-    const matchCategorie = !filtreCategorie || l.categorie === filtreCategorie;
-    const matchSearch = l.titre.toLowerCase().includes(recherche.toLowerCase());
-    const matchAdvanced =
-      (!filters.categorie || l.categorie === filters.categorie) &&
-      (!filters.minPrice || l.prix >= filters.minPrice) &&
-      (!filters.maxPrice || l.prix <= filters.maxPrice) &&
-      (!filters.condition || l.condition === filters.condition);
-    return matchCategorie && matchSearch && matchAdvanced;
+    const correspondCategorie = !filtreCategorie || l.categorie === filtreCategorie;
+    const correspondRecherche = l.titre.toLowerCase().includes(recherche.toLowerCase());
+    const correspondFiltreAvance =
+      (!filtres.categorie || l.categorie === filtres.categorie) &&
+      (!filtres.minPrice || l.prix >= filtres.minPrice) &&
+      (!filtres.maxPrice || l.prix <= filtres.maxPrice) &&
+      (!filtres.condition || l.condition === filtres.condition);
+    return correspondCategorie && correspondRecherche && correspondFiltreAvance;
   });
 
   return (
@@ -59,10 +59,60 @@ function HomePage() {
               alignItems: "center",
               justifyContent: "space-between",
               width: "100%",
-              padding: "0 5px"
+              padding: "0"
             }}
           >
-            {/* 左側：Logo + 搜尋欄 + Filter */}
+ <div style={{ display: "flex", alignItems: "center", gap: "10px",marginLeft: "-100px" }}>
+  {/* Bouton menu (hamburger) */}
+
+<button
+  onClick={() => setMenuOuvert(!menuOuvert)}
+  style={{
+    background: "none",
+    border: "none",
+    cursor: "pointer",
+    fontSize: "28px",
+    lineHeight: "1",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "8px",
+  }}
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="32"
+    height="32"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="white"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <line x1="3" y1="6" x2="21" y2="6" />
+    <line x1="3" y1="12" x2="21" y2="12" />
+    <line x1="3" y1="18" x2="21" y2="18" />
+  </svg>
+</button>
+
+  {/* LOGO */}
+  <img
+    src="/ChatGPT Image 2 août 2025, 01_05_13.png"
+    alt="reLivre"
+    style={{
+      display: "block",
+      height: "200px",
+      width: "auto",
+      objectFit: "contain",
+      marginRight: "50px"
+      
+    }}
+  />
+</div>
+
+
+            {/* Gauche : Logo + Recherche + Filtre */}
             <div
               style={{
                 display: "flex",
@@ -70,35 +120,14 @@ function HomePage() {
                 gap: "20px",
                 flex: 1,
               }}
+
+        
             >
-              {/* LOGO */}
-              <img
-                src="/ChatGPT Image 2 août 2025, 01_05_13.png"
-                alt="reLivre"
-                style={{
-                  display: "block",
-                  height: "200px",
-                  width: "auto",
-                  objectFit: "contain",
-                  marginLeft: "-100px",
-                }}
-              />
 
-              {/* 目錄（漢堡按鈕） */}
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "28px",
-                  lineHeight: "1",
-                }}
-              >
-                ☰
-              </button>
-
-              {/* 搜尋欄 + Filter */}
+    
+     
+        
+              {/* Barre de recherche + Filtre */}
               <div
                 style={{
                   display: "flex",
@@ -107,23 +136,29 @@ function HomePage() {
                   flex: 1,
                 }}
               >
-                <input
-                  type="text"
-                  placeholder="Rechercher un livre..."
-                  value={recherche}
-                  onChange={(e) => setRecherche(e.target.value)}
-                  style={{
-                    flex: 1,
-                    padding: "12px 18px",
-                    borderRadius: "20px",
-                    border: "1px solid #ccc",
-                    fontSize: "16px",
-                    height: "48px",
-                    boxSizing: "border-box",
-                  }}
-                />
+              <input
+  type="text"
+  placeholder="Rechercher un livre..."
+  value={recherche}
+  onChange={(e) => setRecherche(e.target.value)}
+  style={{
+    flex: 1,
+    padding: "12px 20px",
+    borderRadius: "24px",
+    border: "1px solid #ddd",
+    fontSize: "16px",
+    height: "46px",
+    boxSizing: "border-box",
+    outline: "none",
+    backgroundColor: "#fff",
+    transition: "all 0.2s ease",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
+  }}
+  onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(100,154,139,0.2)")}
+  onBlur={(e) => (e.target.style.boxShadow = "0 1px 3px rgba(0,0,0,0.08)")}
+/>
                 <button
-                  onClick={() => setFilterOpen(true)}
+                  onClick={() => setFiltreOuvert(true)}
                   style={{
                     background: "transparent",
                     border: "none",
@@ -132,6 +167,7 @@ function HomePage() {
                     alignItems: "center",
                     justifyContent: "center",
                     padding: 0,
+                     marginLeft: "10px"
                   }}
                 >
                   <svg
@@ -147,7 +183,7 @@ function HomePage() {
               </div>
             </div>
 
-            {/* 右側：購物車 */}
+            {/* Droite : Panier */}
             <button
               onClick={() => navigate("/panier")}
               style={{
@@ -157,7 +193,7 @@ function HomePage() {
                 borderRadius: "8px",
                 cursor: "pointer",
                 backgroundColor: "#649a8b",
-                marginLeft: "20px",
+                marginLeft: "40px",
                 marginRight: "30px",
                 display: "flex",
                 alignItems: "center",
@@ -204,8 +240,8 @@ function HomePage() {
       </header>
 
       <div className="app-container" style={{ display: "flex", alignItems: "center" }}>
-        {/* 下拉選單 */}
-        {menuOpen && (
+        {/* Menu déroulant */}
+        {menuOuvert && (
           <div
             className="dropdown-menu"
             style={{
@@ -220,35 +256,94 @@ function HomePage() {
               zIndex: 1000,
             }}
           >
-            <div onClick={() => setMenuOpen(false)} style={{ padding: "10px 20px", cursor: "pointer" }}>🏠 首頁</div>
-            <div onClick={() => setMenuOpen(false)} style={{ padding: "10px 20px", cursor: "pointer" }}>🛍 書籍</div>
-            <div onClick={() => setMenuOpen(false)} style={{ padding: "10px 20px", cursor: "pointer" }}>📞 聯絡我們</div>
+            <div onClick={() => setMenuOuvert(false)} style={{ padding: "10px 20px", cursor: "pointer" }}>Accueil</div>
+            <div onClick={() => setMenuOuvert(false)} style={{ padding: "10px 20px", cursor: "pointer" }}>Livres</div>
+            <div onClick={() => setMenuOuvert(false)} style={{ padding: "10px 20px", cursor: "pointer" }}>Contactez-nous</div>
           </div>
         )}
 
         <div className="shop-area">
-          {/* ✅ 輪播圖 */}
-          <div className="app-container" style={{ display: "flex", alignItems: "center", backgroundColor: "white", padding: 30,marginLeft: "-500px" }}>
+          {/* ✅ Carrousel */}
+          <div className="app-container" style={{ display: "flex", alignItems: "center", backgroundColor: "white", padding: 30, marginLeft: "-500px" }}>
             <BannerCarousel />
           </div>
 
+    
 
-          {/* 產品列表 */}
-          <div className="product-grid">
-            {livresFiltres.map((l) => (
-              <div key={l.id} className="product-card">
-                <Link to={`/produit/${l.id}`}>
-                  <img src={l.image} alt={l.titre} />
-                  <h4>{l.titre}</h4>
-                  <p>{l.prix} € · {l.condition}</p>
-                </Link>
-                <button
-                  onClick={() =>
-                    addToCart({ id: l.id, nom: l.titre, categorie: l.categorie, image: l.image })
-                  }
-                >
-                  🛒 加入購物車
-                </button>
+      {/* Liste des produits */}
+<div
+  className="product-grid"
+  style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+    gap: "20px",
+    padding: "20px 0",
+  }}
+>
+  {livresFiltres.map((l) => (
+    <div
+      key={l.id}
+      className="product-card"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        backgroundColor: "white",
+        padding: "16px",
+        borderRadius: "12px",
+        boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+        height: "300px", // 固定高度
+      }}
+    >
+      <Link
+        to={`/produit/${l.id}`}
+        style={{ textDecoration: "none", color: "inherit", flexGrow: 1 }}
+      >
+        <img
+          src={l.image}
+          alt={l.titre}
+          style={{
+            width: "100%",
+            height: "160px",
+            objectFit: "cover",
+            borderRadius: "8px",
+            marginBottom: "10px",
+          }}
+        />
+        <h4 style={{ fontSize: "14px", margin: "4px 0" }}>{l.titre}</h4>
+        <p style={{ color: "#555", fontSize: "13px" }}>
+          {l.prix} € · {l.condition}
+        </p>
+      </Link>
+
+      <button
+        onClick={() =>
+          addToCart({
+            id: l.id,
+            nom: l.titre,
+            categorie: l.categorie,
+            image: l.image,
+            prix: l.prix,
+          })
+        }
+        style={{
+          backgroundColor: "#649a8b",
+          color: "white",
+          padding: "10px 16px",
+          border: "none",
+          borderRadius: "8px",
+          cursor: "pointer",
+          fontSize: "14px",
+          fontWeight: "bold",
+          transition: "background 0.3s",
+          marginTop: "auto", // 把按鈕推到底
+        }}
+        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#45a049")}
+        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#649a8b")}
+      >
+        Ajouter au panier
+      </button>
+ 
               </div>
             ))}
           </div>
@@ -256,12 +351,12 @@ function HomePage() {
       </div>
 
       <BookFilterModal
-        open={filterOpen}
-        onClose={() => setFilterOpen(false)}
-        onApply={(f) => setFilters(f)}
+        open={filtreOuvert}
+        onClose={() => setFiltreOuvert(false)}
+        onApply={(f) => setFiltres(f)}
       />
     </>
   );
 }
 
-export default HomePage;
+export default PageAccueil;
