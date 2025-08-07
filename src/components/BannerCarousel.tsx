@@ -1,25 +1,93 @@
 import Slider from "react-slick";
+import { IconButton } from "@mui/material";
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+function NextArrow(props: any) {
+  const { onClick } = props;
+  return (
+    <IconButton
+      onClick={onClick}
+      sx={{
+        position: "absolute",
+        right: 10,
+        top: "50%",
+        transform: "translateY(-50%)",
+        zIndex: 2,
+        backgroundColor: "white",
+        boxShadow: 2,
+        "&:hover": { backgroundColor: "#f1f1f1" },
+      }}
+    >
+      <ArrowForwardIos fontSize="small" />
+    </IconButton>
+  );
+}
+
+function PrevArrow(props: any) {
+  const { onClick } = props;
+  return (
+    <IconButton
+      onClick={onClick}
+      sx={{
+        position: "absolute",
+        left: 10,
+        top: "50%",
+        transform: "translateY(-50%)",
+        zIndex: 2,
+        backgroundColor: "white",
+        boxShadow: 2,
+        "&:hover": { backgroundColor: "#f1f1f1" },
+      }}
+    >
+      <ArrowBackIos fontSize="small" />
+    </IconButton>
+  );
+}
 
 export default function BannerCarousel() {
   const settings = {
-    dots: true,          // 底部小點
-    infinite: true,      // 無限循環
-    speed: 500,          // 切換速度
-    autoplay: true,      // 自動輪播
-    autoplaySpeed: 3000, // 3秒換一次
-    slidesToShow: 1,     // 一次顯示一張
+    dots: true,
+    infinite: true,
+    speed: 500,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    slidesToShow: 1,
     slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    dotsClass: "slick-dots slick-thumb",
   };
 
-  return (
-    <div className="banner-container" style={{ width: "40%", height:"50%", maxWidth: "800px", margin: "0 auto" }}>
-  <Slider {...settings}>
-        <img src="/book.avif" alt="促銷1" className="banner" />
-        <img src="/banner2.jpg" alt="促銷2" className="banner" />
-        <img src="/banner3.jpg" alt="促銷3" className="banner" />
-      </Slider>
-    </div>
-
-    
-  );
+return (
+  <div
+    style={{
+      width: "100%",
+      height: "300px", // ✅ 統一高度
+      margin: "0 auto",
+      position: "relative",
+    }}
+  >
+    <Slider {...settings}>
+      {[
+        "/415733e0a7dd580b2287bed8c49a.webp",
+        "/09528d22be1bae5b7d70932b9a2c.webp",
+        "/a93727b92980a20f17bc8258800a.webp",
+      ].map((src, idx) => (
+        <div key={idx}>
+          <img
+            src={src}
+            alt={`促銷${idx + 1}`}
+            style={{
+              width: "100%",       // 
+              height: "300px",     // 
+              objectFit: "cover",  // 
+            }}
+          />
+        </div>
+      ))}
+    </Slider>
+  </div>
+);
 }

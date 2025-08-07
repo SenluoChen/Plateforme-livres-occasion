@@ -8,6 +8,10 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  Typography,
+  Divider,
+  Fade,
+  Backdrop,
 } from "@mui/material";
 
 interface FilterOptions {
@@ -16,6 +20,8 @@ interface FilterOptions {
   maxPrice: number | "";
   condition: string;
 }
+
+const mainColor = "#649a8b";
 
 const BookFilterModal: React.FC<{
   open: boolean;
@@ -39,76 +45,155 @@ const BookFilterModal: React.FC<{
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 400,
-          bgcolor: "white",
-          boxShadow: 24,
-          p: 4,
-          borderRadius: 2,
-        }}
-      >
-        <h3 style={{ marginBottom: "16px" }}>Recherche avancée</h3>
-
-        {/* Catégorie */}
-        <FormControl fullWidth sx={{ mb: 3 }}>
-          <InputLabel>Catégorie</InputLabel>
-          <Select
-            value={filters.categorie}
-            onChange={(e) => handleChange("categorie", e.target.value)}
+    <Modal
+      open={open}
+      onClose={onClose}
+      closeAfterTransition
+      slots={{ backdrop: Backdrop }}
+      slotProps={{
+        backdrop: {
+          timeout: 300,
+          sx: {
+            backdropFilter: "blur(6px)", // 背景模糊
+            backgroundColor: "rgba(0,0,0,0.25)", // 半透明黑
+          },
+        },
+      }}
+    >
+      <Fade in={open} timeout={300}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 420,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            borderRadius: 3,
+            p: 4,
+            display: "flex",
+            flexDirection: "column",
+            gap: 3,
+          }}
+        >
+          {/* 標題 */}
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: "bold",
+              textAlign: "center",
+              color: mainColor,
+            }}
           >
-            <MenuItem value="">Toutes</MenuItem>
-            <MenuItem value="Roman">Roman</MenuItem>
-            <MenuItem value="Manga">Manga</MenuItem>
-            <MenuItem value="Guide">Guide</MenuItem>
-          </Select>
-        </FormControl>
+            Recherche avancée
+          </Typography>
+          <Divider />
 
-        {/* Intervalle de prix */}
-        <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
-          <TextField
-            label="Prix minimum (€)"
-            type="number"
-            value={filters.minPrice}
-            onChange={(e) => handleChange("minPrice", Number(e.target.value))}
-            fullWidth
-          />
-          <TextField
-            label="Prix maximum (€)"
-            type="number"
-            value={filters.maxPrice}
-            onChange={(e) => handleChange("maxPrice", Number(e.target.value))}
-            fullWidth
-          />
+          {/* Catégorie */}
+          <FormControl fullWidth>
+            <InputLabel sx={{ color: mainColor }}>Catégorie</InputLabel>
+            <Select
+              value={filters.categorie}
+              onChange={(e) => handleChange("categorie", e.target.value)}
+              sx={{
+                "& .MuiOutlinedInput-notchedOutline": { borderColor: mainColor },
+                "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: mainColor },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: mainColor },
+              }}
+            >
+              <MenuItem value="">Toutes</MenuItem>
+              <MenuItem value="Roman">Roman</MenuItem>
+              <MenuItem value="Manga">Manga</MenuItem>
+              <MenuItem value="Guide">Guide</MenuItem>
+            </Select>
+          </FormControl>
+
+          {/* Intervalle de prix */}
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <TextField
+              label="Prix minimum (€)"
+              type="number"
+              value={filters.minPrice}
+              onChange={(e) => handleChange("minPrice", Number(e.target.value))}
+              fullWidth
+              sx={{
+                "& label.Mui-focused": { color: mainColor },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": { borderColor: mainColor },
+                  "&:hover fieldset": { borderColor: mainColor },
+                  "&.Mui-focused fieldset": { borderColor: mainColor },
+                },
+              }}
+            />
+            <TextField
+              label="Prix maximum (€)"
+              type="number"
+              value={filters.maxPrice}
+              onChange={(e) => handleChange("maxPrice", Number(e.target.value))}
+              fullWidth
+              sx={{
+                "& label.Mui-focused": { color: mainColor },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": { borderColor: mainColor },
+                  "&:hover fieldset": { borderColor: mainColor },
+                  "&.Mui-focused fieldset": { borderColor: mainColor },
+                },
+              }}
+            />
+          </Box>
+
+          {/* État */}
+          <FormControl fullWidth>
+            <InputLabel sx={{ color: mainColor }}>État</InputLabel>
+            <Select
+              value={filters.condition}
+              onChange={(e) => handleChange("condition", e.target.value)}
+              sx={{
+                "& .MuiOutlinedInput-notchedOutline": { borderColor: mainColor },
+                "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: mainColor },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: mainColor },
+              }}
+            >
+              <MenuItem value="">Indifférent</MenuItem>
+              <MenuItem value="Neuf">Neuf</MenuItem>
+              <MenuItem value="Occasion">Occasion</MenuItem>
+            </Select>
+          </FormControl>
+
+          {/* 按鈕區塊 */}
+          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
+            <Button
+              variant="outlined"
+              sx={{
+                borderRadius: 2,
+                px: 3,
+                color: mainColor,
+                borderColor: mainColor,
+                "&:hover": {
+                  borderColor: mainColor,
+                  backgroundColor: "rgba(100,154,139,0.08)",
+                },
+              }}
+              onClick={onClose}
+            >
+              Annuler
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                borderRadius: 2,
+                px: 3,
+                backgroundColor: mainColor,
+                "&:hover": { backgroundColor: "#557e74" },
+              }}
+              onClick={handleApply}
+            >
+              Appliquer
+            </Button>
+          </Box>
         </Box>
-
-        {/* État */}
-        <FormControl fullWidth sx={{ mb: 3 }}>
-          <InputLabel>État</InputLabel>
-          <Select
-            value={filters.condition}
-            onChange={(e) => handleChange("condition", e.target.value)}
-          >
-            <MenuItem value="">Indifférent</MenuItem>
-            <MenuItem value="Neuf">Neuf</MenuItem>
-            <MenuItem value="Occasion">Occasion</MenuItem>
-          </Select>
-        </FormControl>
-
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Button variant="outlined" onClick={onClose}>
-            Annuler
-          </Button>
-          <Button variant="contained" onClick={handleApply}>
-            Appliquer
-          </Button>
-        </Box>
-      </Box>
+      </Fade>
     </Modal>
   );
 };

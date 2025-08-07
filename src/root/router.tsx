@@ -1,4 +1,4 @@
-// router.tsx
+// src/routes/router.tsx
 import { createBrowserRouter } from 'react-router-dom';
 import Root from './Root';
 import HomePage from '../pages/HomePage';
@@ -9,36 +9,36 @@ import OrderSuccessPage from '../pages/OrderSuccessPage';
 
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Root />, // Layout
+    path: "/",
+    element: <Root />, // 主 Layout
     children: [
       {
-        index: true, // ✅ 當路徑是 '/' 顯示 HomePage
+        index: true, // 預設首頁
         element: <HomePage />,
       },
       {
-        path: 'dashboard', // ✅ 可選的 Dashboard 路徑
+        path: "dashboard", // 另一個首頁入口
         element: <HomePage />,
       },
       {
-        path: 'produit/:id',
+        path: "produit/:id", // ✅ 商品詳情頁
         element: <ProductDetail />,
       },
     ],
   },
-  // 這些頁面不使用 Root Layout
+  // 下列頁面不使用 Root Layout
   {
-    path: '/panier',
+    path: "/panier",
     element: <PanierPage />,
   },
   {
-    path: '/checkout',
+    path: "/checkout",
     element: <CheckoutPage />,
   },
   {
-    path: '/order-success',
+    path: "/order-success",
     element: <OrderSuccessPage />,
   },
 ]);
 
-export {};
+export default router;
