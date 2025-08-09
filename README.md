@@ -67,3 +67,4 @@ src/
 🚀 Déploiement
 Compatible avec : Vercel, Netlify, GitHub Pages (config Vite)
 
+.
