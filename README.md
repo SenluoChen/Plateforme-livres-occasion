@@ -1,4 +1,4 @@
-# ReLivre – Plateforme d’achat intégrant une recherche LLM *
+# ReLivre – Plateforme d’achat intégrant une recherche LLM
 
 ## Présentation
 ReLivre est une plateforme e-commerce moderne dédiée à l’achat de livres d’occasion.  
@@ -63,6 +63,7 @@ src/
 ├── styles/ # Styles globaux
 ├── utils/ # Fonctions utilitaires
 └── App.tsx # Point d’entrée
+
 
 🚀 Déploiement
 Compatible avec : GitHub Pages 
