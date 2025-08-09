@@ -1,4 +1,4 @@
-# 📚 ReLivre – Plateforme d’achat de livres d’occasion *(MVP)*
+# ReLivre – Plateforme d’achat intégrant une recherche LLM *
 
 ## Présentation
 ReLivre est une plateforme e-commerce moderne dédiée à l’achat de livres d’occasion.  
@@ -65,6 +65,5 @@ src/
 └── App.tsx # Point d’entrée
 
 🚀 Déploiement
-Compatible avec : Vercel, Netlify, GitHub Pages (config Vite)
+Compatible avec : GitHub Pages 
 
-.
