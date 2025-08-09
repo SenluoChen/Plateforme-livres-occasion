@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.banner-container {
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.banner {
+  width: 100%;
+  height: 300px;       /* 可以改成 400px 看起來更像蝦皮 */
+  object-fit: cover;   /* 填滿不變形 */
+  border-radius: 0;    /* 蝦皮是全寬無圓角 */
+}
