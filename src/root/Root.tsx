@@ -1,12 +1,15 @@
 
 import { Outlet } from 'react-router-dom';
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import ScrollToTop from "../components/ScrollToTop";
+
+
+
 
 function Root() {
   return (
     <div>
      
-    
+          <ScrollToTop />
       <Outlet />
     </div>
   );

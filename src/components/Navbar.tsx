@@ -1,37 +1,38 @@
 // src/components/Navbar.tsx
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
 import { useState, Dispatch, SetStateAction } from "react";
 import BookFilterModal from "./BookFilterModal";
-import { Link } from "react-router-dom";
+import CatalogModal from "./CatalogModal";            // 目錄典籍彈窗
+import { livres } from "../data/livres";              // catalog 資料
 import { searchBooks } from "../utils/search";
 
 export interface NavbarProps {
   recherche: string;
   setRecherche: Dispatch<SetStateAction<string>>;
   setFiltreOuvert: Dispatch<SetStateAction<boolean>>;
-  onSearch: (results: any[]) => void; // ✅ 新增，用來把 LLM 結果傳給 HomePage
+  onSearch: (results: any[]) => void;
 }
 
 function Navbar({ recherche, setRecherche, setFiltreOuvert, onSearch }: NavbarProps) {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);     // Filter 彈窗
+  const [catalogOpen, setCatalogOpen] = useState(false);   // Catalogue 彈窗
+
   const navigate = useNavigate();
   const { cart } = useCart();
 
- const handleSearch = async () => {
-  if (!recherche.trim()) return;
-  setLoading(true);
+  const handleSearch = async () => {
+    if (!recherche.trim()) return;
+    setLoading(true);
+    const results = await searchBooks(recherche);
+    onSearch(results);
+    setFiltreOuvert(false);
+    setFilterOpen(false);
+    setLoading(false);
+  };
 
-  console.log("開始搜尋:", recherche);
-
-  const results = await searchBooks(recherche);
-  console.log("搜尋結果:", results);
-
-  onSearch(results);
-  setFiltreOuvert(false);
-  setLoading(false);
-};
+  const cartCount = cart.reduce((sum, item) => sum + (item.quantity ?? 0), 0);
 
   return (
     <header className="apple-navbar">
@@ -39,53 +40,73 @@ function Navbar({ recherche, setRecherche, setFiltreOuvert, onSearch }: NavbarPr
         <div
           style={{
             height: "80px",
-            display: "flex", // ✅ 這裡加 Flex
+            display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             width: "100%",
             padding: "0 5px",
           }}
         >
-          {/* 左側：漢堡按鈕 + Logo + 搜尋欄 + Filter */}
+{/* 左側：Catalogue 按鈕（取代原漢堡） + Logo */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "20px",
+              gap: "0px",
               flex: 1,
+              marginLeft : "-110px"
             }}
           >
-            {/* 漢堡按鈕 */}
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                padding: "8px",
-                marginLeft: "-100px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              title="Menu"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </svg>
-            </button>
+
+{/* Catalogue 按鈕（白色漢堡圖案） */}
+<button
+  onClick={() => setCatalogOpen(true)}
+  style={{
+    backgroundColor: "#649a8b",
+    border: "none",
+    color: "#fff",
+    padding: "10px",
+    borderRadius: "50%",
+    cursor: "pointer",
+    boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+    transition: "all 0.25s ease",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight : "15px"
+
+  }}
+  onMouseOver={(e) => {
+    e.currentTarget.style.backgroundColor = "#528377";
+    e.currentTarget.style.transform = "translateY(-2px)";
+    e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.18)";
+  }}
+  onMouseOut={(e) => {
+    e.currentTarget.style.backgroundColor = "#649a8b";
+    e.currentTarget.style.transform = "translateY(0)";
+    e.currentTarget.style.boxShadow = "0 2px 6px rgba(0,0,0,0.15)";
+  }}
+  title="Catalogue"
+>
+  {/* 白色漢堡圖示 */}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="22"
+    height="22"
+    fill="none"
+    stroke="white"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    viewBox="0 0 24 24"
+  >
+    <line x1="3" y1="6" x2="21" y2="6" />
+    <line x1="3" y1="12" x2="21" y2="12" />
+    <line x1="3" y1="18" x2="21" y2="18" />
+  </svg>
+</button>
+
+
 
             {/* Logo */}
             <Link to="/" style={{ display: "block" }}>
@@ -103,62 +124,60 @@ function Navbar({ recherche, setRecherche, setFiltreOuvert, onSearch }: NavbarPr
               />
             </Link>
 
-          {/* 搜尋欄 + Filter */}
-<div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "20px",
-    flex: 1,
-  }}
->
-  <div
-    style={{
-      position: "relative",
-      flex: 1,
-    }}
-  >
-    <input
-      type="text"
-      placeholder="Rechercher un livre..."
-      value={recherche}
-      onChange={(e) => setRecherche(e.target.value)}
-      onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-      style={{
-        width: "100%",
-        padding: "12px 80px 12px 18px", // 右邊留空間給按鈕
-        borderRadius: "22px",
-        border: "1px solid #ccc",
-        fontSize: "16px",
-        height: "48px",
-        boxSizing: "border-box",
-      }}
-    />
-    <button
-      onClick={handleSearch}
-      disabled={loading}
-      style={{
-        position: "absolute",
-        right: "8px",
-        top: "50%",
-        transform: "translateY(-50%)",
-        backgroundColor: "#649a8b",
-        color: "white",
-        padding: "8px 14px",
-        border: "none",
-        borderRadius: "20px",
-        cursor: "pointer",
-        fontWeight: "bold",
-        height: "36px",
-      }}
-    >
-      {loading ? "Recherche..." : "Chercher"}
-    </button>
-  </div>
+            {/* 搜尋欄 + Filter */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "20px",
+                flex: 1,
+              }}
+            >
+              <div style={{ position: "relative", flex: 1 }}>
+                <input
+                  type="text"
+                  placeholder="Rechercher un livre..."
+                  value={recherche}
+                  onChange={(e) => setRecherche(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                  style={{
+                    width: "100%",
+                    padding: "12px 80px 12px 18px",
+                    borderRadius: "22px",
+                    border: "1px solid #ccc",
+                    fontSize: "16px",
+                    height: "48px",
+                    boxSizing: "border-box",
+                  }}
+                />
+                <button
+                  onClick={handleSearch}
+                  disabled={loading}
+                  style={{
+                    position: "absolute",
+                    right: "8px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    backgroundColor: "#649a8b",
+                    color: "white",
+                    padding: "8px 14px",
+                    border: "none",
+                    borderRadius: "20px",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                    height: "36px",
+                  }}
+                >
+                  {loading ? "Recherche..." : "Chercher"}
+                </button>
+              </div>
 
-              {/* Filter */}
+              {/* Filter 按鈕 */}
               <button
-                onClick={() => setFiltreOuvert(true)}
+                onClick={() => {
+                  setFiltreOuvert(true); // 舊 API：通知外層
+                  setFilterOpen(true);   // 新：實際開彈窗
+                }}
                 style={{
                   background: "transparent",
                   border: "none",
@@ -168,6 +187,7 @@ function Navbar({ recherche, setRecherche, setFiltreOuvert, onSearch }: NavbarPr
                   justifyContent: "center",
                   padding: 0,
                 }}
+                title="Filtrer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -192,12 +212,13 @@ function Navbar({ recherche, setRecherche, setFiltreOuvert, onSearch }: NavbarPr
               borderRadius: "8px",
               cursor: "pointer",
               backgroundColor: "#649a8b",
-              marginLeft: "35px",
+              marginLeft: "25px",
               marginRight: "-50px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
+            title="Panier"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -215,7 +236,7 @@ function Navbar({ recherche, setRecherche, setFiltreOuvert, onSearch }: NavbarPr
               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
             </svg>
 
-            {cart.reduce((sum, item) => sum + item.quantity, 0) > 0 && (
+            {cartCount > 0 && (
               <span
                 style={{
                   position: "absolute",
@@ -231,40 +252,32 @@ function Navbar({ recherche, setRecherche, setFiltreOuvert, onSearch }: NavbarPr
                   textAlign: "center",
                 }}
               >
-                {cart.reduce((sum, item) => sum + item.quantity, 0)}
+                {cartCount}
               </span>
             )}
           </button>
         </div>
       </nav>
 
-      {/* 下拉選單 */}
-      {menuOpen && (
-        <div
-          className="dropdown-menu"
-          style={{
-            position: "absolute",
-            top: "80px",
-            left: "20px",
-            background: "white",
-            border: "1px solid #ddd",
-            borderRadius: "8px",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-            padding: "10px 0",
-            zIndex: 1000,
-          }}
-        >
-          <div style={{ padding: "10px 20px", cursor: "pointer" }}>首頁</div>
-          <div style={{ padding: "10px 20px", cursor: "pointer" }}>書籍</div>
-          <div style={{ padding: "10px 20px", cursor: "pointer" }}>聯絡我們</div>
-        </div>
-      )}
-
       {/* 篩選彈窗 */}
       <BookFilterModal
-        open={false}
-        onClose={() => setFiltreOuvert(false)}
-        onApply={(f) => console.log("套用過濾", f)}
+        open={filterOpen}
+        onClose={() => {
+          setFilterOpen(false);
+          setFiltreOuvert(false);
+        }}
+        onApply={(filters) => {
+          console.log("套用過濾", filters);
+          setFilterOpen(false);
+          setFiltreOuvert(false);
+        }}
+      />
+
+      {/* 目錄典籍彈窗 */}
+      <CatalogModal
+        open={catalogOpen}
+        onClose={() => setCatalogOpen(false)}
+        livres={livres}
       />
     </header>
   );

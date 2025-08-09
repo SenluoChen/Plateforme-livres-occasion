@@ -1,46 +1,69 @@
-# Getting Started with Create React App
+# 📚 ReLivre – Plateforme d’achat de livres d’occasion *(MVP)*
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Présentation
+ReLivre est une plateforme e-commerce moderne dédiée à l’achat de livres d’occasion.  
+Elle intègre une barre de recherche avancée propulsée par un LLM (Large Language Model), capable de comprendre des requêtes en langage naturel pour proposer les résultats les plus pertinents.
 
-## Available Scripts
+**Statut actuel** : Ce projet est un **MVP** destiné à tester l’intérêt des utilisateurs et à recueillir des retours réels sur l’utilisation d’une recherche assistée par LLM.  
+L’objectif est de valider l’expérience, observer les comportements de recherche et identifier les points d’amélioration avant la version complète.
 
-In the project directory, you can run:
+## Objectifs du MVP
+- Évaluer la pertinence des résultats fournis par la recherche LLM.
+- Observer la manière dont les utilisateurs formulent leurs requêtes.
+- Recueillir des feedbacks pour orienter la prochaine phase de développement.
 
-### `npm start`
+## Fonctionnalités
+- Recherche intelligente via LLM.
+- Catalogue filtrable par catégories, prix et état.
+- Panier interactif avec gestion complète des commandes.
+- Interface responsive (mobile et desktop).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Technologies
+- **Front-end** : React, TypeScript, Material UI
+- **Gestion d’état** : React Context API
+- **Recherche LLM** : OpenAI API
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Cloner le dépôt
+bash
+git clone https://github.com/<utilisateur>/<nom-du-repo>.git
+cd <nom-du-repo>
 
-### `npm run build`
+2. Installer les dépendances
+bash
+npm install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Configurer les variables d’environnement
+Créer un fichier .env à partir du modèle .env.example :
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+env
+VITE_API_BASE=https://api.exemple.com
+VITE_OPENAI_KEY=ta_clef_api
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. Lancer le projet en développement
+bash
+npm run dev
 
-### `npm run eject`
+5. Construire la version de production
+bash
+npm run build
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+6. Prévisualiser la production
+bash
+npm run preview
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+📂 Structure du projet
+src/
+├── components/ # Composants réutilisables
+├── contexts/ # State management (Context API)
+├── data/ # Données statiques ou mock
+├── pages/ # Pages principales
+├── styles/ # Styles globaux
+├── utils/ # Fonctions utilitaires
+└── App.tsx # Point d’entrée
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+🚀 Déploiement
+Compatible avec : Vercel, Netlify, GitHub Pages (config Vite)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

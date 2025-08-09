@@ -64,7 +64,7 @@ return (
   <div
     style={{
       width: "100%",
-      height: "300px", // ✅ 統一高度
+      height: "100%", // ✅ 統一高度
       margin: "0 auto",
       position: "relative",
     }}
@@ -81,7 +81,7 @@ return (
             alt={`促銷${idx + 1}`}
             style={{
               width: "100%",       // 
-              height: "300px",     // 
+              height: "100%",     // 
               objectFit: "cover",  // 
             }}
           />

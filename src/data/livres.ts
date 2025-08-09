@@ -1,3 +1,10 @@
+export type Avis = {
+  nom: string;
+  note: number;
+  commentaire: string;
+  date: string;
+};
+
 export type Livre = {
   id: number;
   titre: string;
@@ -8,8 +15,41 @@ export type Livre = {
   langue: string;
   stock: number;
   description: string;
+  avis: Avis[];
 };
 
+// ==== 工具：生成隨機評論 ====
+const nomsClients = [
+  "Claire", "Marc", "Julie", "Thomas", "Sophie", "Léo", "Pierre", "Anna", "Paul", "Emma",
+  "Lucas", "Nina", "Camille", "David", "Elise", "Olivier", "Maxime", "Sarah", "Antoine"
+];
+
+const commentaires = [
+  "Un vrai coup de cœur, je recommande vivement.",
+  "Très intéressant, mais quelques longueurs.",
+  "Magnifique, j'ai adoré du début à la fin.",
+  "Lecture agréable et enrichissante.",
+  "Intrigue prenante, difficile à lâcher.",
+  "Beau style d'écriture et personnages attachants.",
+  "Un peu complexe mais passionnant.",
+  "Parfait pour les amateurs du genre."
+];
+
+function genererAvisAleatoire(): Avis[] {
+  const nombreAvis = Math.floor(Math.random() * 5) + 1; // 1~5 avis
+  return Array.from({ length: nombreAvis }, () => ({
+    nom: nomsClients[Math.floor(Math.random() * nomsClients.length)],
+    note: Math.floor(Math.random() * 2) + 4, // 4 ou 5 étoiles
+    commentaire: commentaires[Math.floor(Math.random() * commentaires.length)],
+    date: new Date(
+      2025,
+      Math.floor(Math.random() * 7),
+      Math.floor(Math.random() * 28) + 1
+    ).toISOString().split("T")[0]
+  }));
+}
+
+// ==== 書籍資料 ====
 export const livres: Livre[] = [
   {
     id: 1,
@@ -20,7 +60,8 @@ export const livres: Livre[] = [
     condition: "Occasion",
     langue: "Français",
     stock: 3,
-    description: "Après avoir purgé dix-neuf années de bagne pour avoir volé un morceau de pain, Jean Valjean est relâché mais rejeté par la société. L’évêque Myriel lui offre un acte de bonté qui change sa vie. Traqué par l’impitoyable inspecteur Javert, symbole de la justice rigide, Valjean refait sa vie sous une nouvelle identité, aide les plus démunis et trouve l’amour d’une famille. Ce chef-d’œuvre de Victor Hugo explore la misère, la rédemption, la justice sociale et la puissance de l’amour face à l’adversité."
+    description: "Après avoir purgé dix-neuf années de bagne...",
+    avis: genererAvisAleatoire()
   },
   {
     id: 2,
@@ -31,7 +72,8 @@ export const livres: Livre[] = [
     condition: "Neuf",
     langue: "Français",
     stock: 5,
-    description: "Lors de sa quatrième année à Poudlard, Harry est mystérieusement inscrit au Tournoi des Trois Sorciers, une compétition magique mortelle. Entre dragons, épreuves sous-marines et labyrinthes ensorcelés, il doit affronter ses peurs et se dépasser. Mais la finale vire au drame : Voldemort revient à la vie et Cédric Diggory est tué. Ce tome marque un tournant sombre dans la saga, mêlant suspense, amitié, loyauté et la découverte brutale de la noirceur du monde magique."
+    description: "Lors de sa quatrième année à Poudlard...",
+    avis: genererAvisAleatoire()
   },
   {
     id: 3,
@@ -42,7 +84,8 @@ export const livres: Livre[] = [
     condition: "Occasion",
     langue: "Français",
     stock: 2,
-    description: "Un aviateur échoué dans le désert du Sahara rencontre un petit garçon venu de l’astéroïde B-612. En racontant ses voyages, le Petit Prince décrit ses rencontres avec un roi, un vaniteux, un buveur, un businessman et un allumeur de réverbères, chacun représentant un travers du monde adulte. À travers son amour pour une rose unique, il livre une réflexion poétique sur l’amitié, l’amour, la solitude et l’importance de voir avec le cœur. Un conte intemporel d’Antoine de Saint-Exupéry."
+    description: "Un aviateur échoué dans le désert du Sahara...",
+    avis: genererAvisAleatoire()
   },
   {
     id: 4,
@@ -53,7 +96,8 @@ export const livres: Livre[] = [
     condition: "Occasion",
     langue: "Anglais",
     stock: 4,
-    description: "Cet ouvrage pédagogique introduit les concepts fondamentaux de la physique quantique : dualité onde-corpuscule, superposition des états, principe d’incertitude et rôle de l’observateur. À travers des explications claires et illustrées, il rend accessibles les idées clés de cette science fascinante qui régit le monde subatomique. Idéal pour les étudiants et les passionnés de sciences qui souhaitent comprendre l’essence de la mécanique quantique."
+    description: "Cet ouvrage pédagogique introduit les concepts fondamentaux...",
+    avis: genererAvisAleatoire()
   },
   {
     id: 5,
@@ -64,7 +108,8 @@ export const livres: Livre[] = [
     condition: "Occasion",
     langue: "Français",
     stock: 1,
-    description: "Dans la ville d’Oran, une épidémie de peste se déclare, isolant ses habitants du reste du monde. À travers le regard du docteur Rieux et d’autres personnages, Albert Camus explore la peur, la solidarité, l’absurdité de la condition humaine et la résistance face à l’inévitable. Ce roman allégorique, écrit en 1947, résonne comme une réflexion sur la guerre, la souffrance et la dignité humaine."
+    description: "Dans la ville d’Oran, une épidémie de peste se déclare...",
+    avis: genererAvisAleatoire()
   },
   {
     id: 6,
@@ -75,7 +120,8 @@ export const livres: Livre[] = [
     condition: "Occasion",
     langue: "Français",
     stock: 2,
-    description: "Meursault, un employé d’Alger, mène une vie détachée et indifférente. Le décès de sa mère ne suscite chez lui aucune émotion apparente. Plus tard, il commet un meurtre absurde sur une plage. Son procès met en lumière son refus des conventions sociales. À travers ce personnage, Albert Camus illustre la philosophie de l’absurde et questionne le sens de la vie."
+    description: "Meursault, un employé d’Alger, mène une vie détachée...",
+    avis: genererAvisAleatoire()
   },
   {
     id: 7,
@@ -86,7 +132,8 @@ export const livres: Livre[] = [
     condition: "Occasion",
     langue: "Français",
     stock: 3,
-    description: "Yuval Noah Harari retrace l’histoire de l’humanité, depuis l’émergence de l’Homo sapiens en Afrique jusqu’aux révolutions agricole, industrielle et numérique. L’ouvrage analyse comment nos mythes, religions et systèmes politiques ont façonné nos sociétés, et s’interroge sur l’avenir de notre espèce face aux avancées technologiques et à l’intelligence artificielle."
+    description: "Yuval Noah Harari retrace l’histoire de l’humanité...",
+    avis: genererAvisAleatoire()
   },
   {
     id: 8,
@@ -97,7 +144,8 @@ export const livres: Livre[] = [
     condition: "Occasion",
     langue: "Français",
     stock: 2,
-    description: "Carl Sagan entraîne le lecteur dans un voyage à travers l’univers, mêlant astronomie, biologie, histoire et philosophie. De la naissance des étoiles à l’évolution de la vie sur Terre, il célèbre la curiosité humaine et plaide pour une meilleure compréhension scientifique afin de protéger notre planète et notre avenir."
+    description: "Carl Sagan entraîne le lecteur dans un voyage à travers l’univers...",
+    avis: genererAvisAleatoire()
   },
   {
     id: 9,
@@ -108,7 +156,8 @@ export const livres: Livre[] = [
     condition: "Occasion",
     langue: "Français",
     stock: 5,
-    description: "Lorsque le conservateur du Louvre est assassiné, Robert Langdon, professeur en symbologie, se retrouve entraîné dans une enquête qui révèle des secrets cachés depuis des siècles. Entre codes mystérieux, œuvres d’art et sociétés secrètes, ce thriller de Dan Brown mêle art, religion et suspense dans une chasse au trésor à travers l’Europe."
+    description: "Lorsque le conservateur du Louvre est assassiné...",
+    avis: genererAvisAleatoire()
   },
   {
     id: 10,
@@ -119,7 +168,8 @@ export const livres: Livre[] = [
     condition: "Occasion",
     langue: "Français",
     stock: 4,
-    description: "Ce traité militaire attribué à Sun Tzu, stratège chinois du VIe siècle av. J.-C., expose des principes intemporels sur la guerre, la stratégie et le leadership. Au-delà du champ de bataille, ses enseignements s’appliquent à la gestion, à la négociation et au développement personnel."
+    description: "Ce traité militaire attribué à Sun Tzu...",
+    avis: genererAvisAleatoire()
   },
   {
     id: 11,
@@ -130,7 +180,8 @@ export const livres: Livre[] = [
     condition: "Occasion",
     langue: "Français",
     stock: 2,
-    description: "Dans le Paris médiéval, Quasimodo, le sonneur bossu de Notre-Dame, aime en secret la belle bohémienne Esmeralda. Autour d’eux gravitent le prêtre Frollo, déchiré par sa passion, et le capitaine Phoebus. Victor Hugo signe un drame romantique qui dénonce l’injustice sociale et célèbre la majesté de l’architecture gothique."
+    description: "Dans le Paris médiéval, Quasimodo, le sonneur bossu...",
+    avis: genererAvisAleatoire()
   },
   {
     id: 12,
@@ -141,7 +192,8 @@ export const livres: Livre[] = [
     condition: "Occasion",
     langue: "Français",
     stock: 3,
-    description: "Victime d’un complot, Edmond Dantès est emprisonné au château d’If. Après quatorze ans de captivité, il s’évade, découvre un fabuleux trésor et devient le mystérieux Comte de Monte-Cristo. Animé par la vengeance, il ourdit un plan pour punir ses ennemis, mais se confronte aux limites de la justice et du pardon."
+    description: "Victime d’un complot, Edmond Dantès est emprisonné...",
+    avis: genererAvisAleatoire()
   },
   {
     id: 13,
@@ -149,10 +201,11 @@ export const livres: Livre[] = [
     categorie: "Fantasy",
     image: "/Image/seigneur-des-anneaux.jpg",
     prix: 24,
-    condition: "Occasion",
+    condition: "Neuf",
     langue: "Français",
     stock: 4,
-    description: "Frodon Sacquet hérite d’un anneau magique forgé par Sauron, le Seigneur des Ténèbres. Pour empêcher son retour, il entreprend un périlleux voyage vers la montagne du Destin, accompagné de la Communauté de l’Anneau. Ce premier tome de l’épopée de J.R.R. Tolkien mêle aventure, amitié et lutte épique entre le bien et le mal."
+    description: "Frodon Sacquet hérite d’un anneau magique forgé par Sauron...",
+    avis: genererAvisAleatoire()
   },
   {
     id: 14,
@@ -163,6 +216,206 @@ export const livres: Livre[] = [
     condition: "Occasion",
     langue: "Français",
     stock: 2,
-    description: "Le professeur Lidenbrock découvre un manuscrit ancien révélant un passage vers le centre de la Terre. Accompagné de son neveu Axel et du guide Hans, il s’aventure dans un voyage souterrain extraordinaire, rencontrant mers intérieures, créatures préhistoriques et paysages fantastiques dans ce roman d’aventure de Jules Verne."
+    description: "Le professeur Lidenbrock découvre un manuscrit ancien...",
+    avis: genererAvisAleatoire()
+  },
+
+
+
+  {
+    id: 15,
+    titre: "1984",
+    categorie: "Roman",
+    image: "/Image/1984.jpg",
+    prix: 14,
+    condition: "Occasion",
+    langue: "Français",
+    stock: 3,
+    description: "George Orwell dépeint un monde dystopique sous surveillance constante...",
+    avis: genererAvisAleatoire()
+  },
+  {
+    id: 16,
+    titre: "Fahrenheit 451",
+    categorie: "Science-fiction",
+    image: "/Image/fahrenheit-451.jpg",
+    prix: 12,
+    condition: "Neuf",
+    langue: "Français",
+    stock: 2,
+    description: "Dans un futur où les livres sont interdits, un pompier remet en question sa mission...",
+    avis: genererAvisAleatoire()
+  },
+  {
+    id: 17,
+    titre: "Crime et Châtiment",
+    categorie: "Roman",
+    image: "/Image/crime-et-chatiment.jpg",
+    prix: 16,
+    condition: "Occasion",
+    langue: "Français",
+    stock: 4,
+    description: "Fiodor Dostoïevski explore la psychologie d’un jeune homme tourmenté...",
+    avis: genererAvisAleatoire()
+  },
+  {
+    id: 18,
+    titre: "Guerre et Paix",
+    categorie: "Roman",
+    image: "/Image/guerre-et-paix.jpg",
+    prix: 20,
+    condition: "Neuf",
+    langue: "Français",
+    stock: 3,
+    description: "Tolstoï mêle destins individuels et bouleversements historiques de la Russie napoléonienne...",
+    avis: genererAvisAleatoire()
+  },
+  {
+    id: 19,
+    titre: "Moby Dick",
+    categorie: "Aventure",
+    image: "/Image/moby-dick.jpg",
+    prix: 15,
+    condition: "Occasion",
+    langue: "Français",
+    stock: 2,
+    description: "Herman Melville raconte la quête obsessionnelle du capitaine Achab contre le grand cachalot blanc...",
+    avis: genererAvisAleatoire()
+  },
+  {
+    id: 20,
+    titre: "Les Fleurs du mal",
+    categorie: "Poésie",
+    image: "/Image/fleurs-du-mal.jpg",
+    prix: 9,
+    condition: "Neuf",
+    langue: "Français",
+    stock: 5,
+    description: "Charles Baudelaire explore la beauté, la mélancolie et la décadence à travers ses poèmes...",
+    avis: genererAvisAleatoire()
+  },
+  {
+    id: 21,
+    titre: "L’Odyssée",
+    categorie: "Classique",
+    image: "/Image/odyssee.jpg",
+    prix: 13,
+    condition: "Neuf",
+    langue: "Français",
+    stock: 4,
+    description: "Homère raconte le voyage semé d’embûches d’Ulysse pour retrouver Ithaque...",
+    avis: genererAvisAleatoire()
+  },
+  {
+    id: 22,
+    titre: "L’Iliade",
+    categorie: "Classique",
+    image: "/Image/iliade.jpg",
+    prix: 13,
+    condition: "Occasion",
+    langue: "Français",
+    stock: 3,
+    description: "Homère narre les derniers jours de la guerre de Troie, marqués par la colère d’Achille...",
+    avis: genererAvisAleatoire()
+  },
+  {
+    id: 23,
+    titre: "Le Nom de la Rose",
+    categorie: "Thriller",
+    image: "/Image/nom-de-la-rose.jpg",
+    prix: 17,
+    condition: "Occasion",
+    langue: "Français",
+    stock: 2,
+    description: "Umberto Eco mêle enquête policière et réflexion philosophique dans une abbaye médiévale...",
+    avis: genererAvisAleatoire()
+  },
+  {
+    id: 24,
+    titre: "Shining",
+    categorie: "Horreur",
+    image: "/Image/shining.jpg",
+    prix: 14,
+    condition: "Neuf",
+    langue: "Français",
+    stock: 3,
+    description: "Stephen King plonge dans l’angoisse d’un hôtel isolé où un écrivain sombre dans la folie...",
+    avis: genererAvisAleatoire()
+  },
+  {
+    id: 25,
+    titre: "Dracula",
+    categorie: "Horreur",
+    image: "/Image/dracula.jpg",
+    prix: 12,
+    condition: "Occasion",
+    langue: "Français",
+    stock: 4,
+    description: "Bram Stoker raconte l’histoire du comte vampire et de ceux qui tentent de le vaincre...",
+    avis: genererAvisAleatoire()
+  },
+  {
+    id: 26,
+    titre: "Frankenstein",
+    categorie: "Science-fiction",
+    image: "/Image/frankenstein.jpg",
+    prix: 11,
+    condition: "Neuf",
+    langue: "Français",
+    stock: 5,
+    description: "Mary Shelley explore les limites de la science et les conséquences de la création de la vie...",
+    avis: genererAvisAleatoire()
+  },
+  {
+    id: 27,
+    titre: "Le Vieil Homme et la Mer",
+    categorie: "Roman",
+    image: "/Image/vieil-homme-et-la-mer.jpg",
+    prix: 10,
+    condition: "Occasion",
+    langue: "Français",
+    stock: 3,
+    description: "Ernest Hemingway raconte le combat d’un vieux pêcheur contre un énorme marlin...",
+    avis: genererAvisAleatoire()
+  },
+  {
+    id: 28,
+    titre: "Les Trois Mousquetaires",
+    categorie: "Aventure",
+    image: "/Image/trois-mousquetaires.jpg",
+    prix: 14,
+    condition: "Occasion",
+    langue: "Français",
+    stock: 2,
+    description: "Alexandre Dumas relate les exploits de d’Artagnan et de ses amis mousquetaires...",
+    avis: genererAvisAleatoire()
+  },
+  {
+    id: 29,
+    titre: "Don Quichotte",
+    categorie: "Roman",
+    image: "/Image/don-quichotte.jpg",
+    prix: 18,
+    condition: "Occasion",
+    langue: "Français",
+    stock: 3,
+    description: "Miguel de Cervantès raconte les aventures absurdes d’un chevalier idéaliste et de son fidèle écuyer...",
+    avis: genererAvisAleatoire()
+  },
+  {
+    id: 30,
+    titre: "L’Alchimiste",
+    categorie: "Roman",
+    image: "/Image/alchimiste.jpg",
+    prix: 12,
+    condition: "Occasion",
+    langue: "Français",
+    stock: 4,
+    description: "Paulo Coelho raconte le voyage initiatique d’un jeune berger à la recherche de son trésor personnel...",
+    avis: genererAvisAleatoire()
   }
+
+
+
+
 ];
