@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "produit/:id", // ✅ 商品詳情頁
+        path: "produit/:id", // 
         element: <ProductDetail />,
       },
     ],

@@ -279,8 +279,6 @@ const CheckoutPage = () => {
   `}</style>
 </Card>
 
-
-
           {/* Livraison */}
           <Card>
             <h3 style={cardTitle}>Mode de livraison</h3>
