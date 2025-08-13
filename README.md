@@ -64,7 +64,8 @@ src/
 ├── utils/ # Fonctions utilitaires
 └── App.tsx # Point d’entrée
 
+## 📬 Contact
 
-🚀 Déploiement
-Compatible avec : GitHub Pages 
+For questions, suggestions, or collaboration opportunities, feel free to reach out:
 
+Email:ray 191714@gmail.com
